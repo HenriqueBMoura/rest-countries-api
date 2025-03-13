@@ -30,50 +30,46 @@ export const App = () => {
   };
 
   const filterCountries = useCallback(async (regionName: string, search: boolean, searchInput: string) => {
-    let url = '';
-    let final_data;
-    if (regionName === "all") {
-      url = `https://restcountries.com/v2/all`;
-    }
-    else {
-      url = `https://restcountries.com/v2/region/${regionName}`;
-    }
-    const response = await fetch(url);
-    const data = await response.json();
+    try {
+      let url = regionName === "all" 
+        ? `https://restcountries.com/v2/all`
+        : `https://restcountries.com/v2/region/${regionName}`;
+      
+      const response = await fetch(url);
+      const data = await response.json();
 
-    if (search) {
-      final_data = data?.filter((country: any) =>
-        Object.values(country)
-          .join("")
-          .toLowerCase()
-          .includes(searchInput.toLowerCase())
-      );
+      return search 
+        ? data?.filter((country: any) =>
+            Object.values(country)
+              .join("")
+              .toLowerCase()
+              .includes(searchInput.toLowerCase())
+          )
+        : data;
+    } catch (error) {
+      console.error('Error fetching countries:', error);
+      return [];
     }
-    else {
-      final_data = data;
-    }
-
-    return final_data;
-  }, []); // No dependencies needed as it doesn't use any external values
+  }, []); 
 
   const fetchRegion = useCallback(async (regionName: string) => {
-    setRegionName(regionName);
-    setIsLoading(true);
-    if (searchInput.length === 0) {
-      const data = await filterCountries(regionName, false, '');
+    try {
+      setRegionName(regionName);
+      setIsLoading(true);
+      
+      const data = await filterCountries(
+        regionName, 
+        searchInput.length > 0 && regionName !== prevRegionNameRef.current,
+        searchInput
+      );
+      
       setCountries(data);
+      setFoundFilter(data.length > 0);
       setIsLoading(false);
-      setFoundFilter(true);
-    }
-    else if (searchInput.length > 0 && regionName !== prevRegionNameRef.current) {
-      const data = await filterCountries(regionName, true, searchInput);
-      setCountries(data);
-      if (data.length === 0) {
-        setFoundFilter(false);
-      } else {
-        setFoundFilter(true);
-      }
+    } catch (error) {
+      console.error('Error fetching region:', error);
       setIsLoading(false);
+      setFoundFilter(false);
     }
   }, [searchInput, filterCountries, prevRegionNameRef]);
 
