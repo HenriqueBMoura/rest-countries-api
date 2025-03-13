@@ -32,8 +32,8 @@ export const App = () => {
   const filterCountries = useCallback(async (regionName: string, search: boolean, searchInput: string) => {
     try {
       let url = regionName === "all" 
-        ? `https://restcountries.com/v2/all`
-        : `https://restcountries.com/v2/region/${regionName}`;
+        ? `${process.env.REACT_APP_API_URL}/all`
+        : `${process.env.REACT_APP_API_URL}/region/${regionName}`;
       
       const response = await fetch(url);
       const data = await response.json();
