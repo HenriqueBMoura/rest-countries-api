@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { Route, Routes } from "react-router-dom";
 //Components
 import Countries from "./routes/countries/Countries";
@@ -29,7 +29,7 @@ export const App = () => {
     }
   };
 
-  const filterCountries = async (regionName: string, search: boolean, searchInput: string) => {
+  const filterCountries = useCallback(async (regionName: string, search: boolean, searchInput: string) => {
     let url = '';
     let final_data;
     if (regionName === "all") {
@@ -54,9 +54,9 @@ export const App = () => {
     }
 
     return final_data;
-  }
+  }, []); // No dependencies needed as it doesn't use any external values
 
-  const fetchRegion = async (regionName: string) => {
+  const fetchRegion = useCallback(async (regionName: string) => {
     setRegionName(regionName);
     setIsLoading(true);
     if (searchInput.length === 0) {
@@ -75,7 +75,7 @@ export const App = () => {
       }
       setIsLoading(false);
     }
-  };
+  }, [searchInput, filterCountries, prevRegionNameRef]);
 
   useEffect(() => {
     let mounted = true;
@@ -91,7 +91,7 @@ export const App = () => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [fetchRegion]);
   
   return (
     <React.Fragment>
