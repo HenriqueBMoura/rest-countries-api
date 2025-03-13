@@ -61,26 +61,25 @@ function Country() {
             <span>&larr;</span> Back
           </Link>
           {country ? <section key={name} className="country-block">
-            <motion.img
-              initial={{
-                opacity: 0,
-                translateX: -500,
-              }}
-              animate={{
-                opacity: 1,
-                translateX: 0,
-              }}
-              transition={{
-                duration: 0.5,
-                translateX: -500,
-              }}
-              exit={{
-                opacity: 0,
-                translateX: -500,
-              }}
-              src={country.flags.svg}
-              alt={name}
-            />
+          <motion.div
+            initial={{
+              opacity: 0,
+              translateX: -500,
+            }}
+            animate={{
+              opacity: 1,
+              translateX: 0,
+            }}
+            transition={{
+              duration: 0.5,
+            }} // Remove translateX from here
+            exit={{
+              opacity: 0,
+              translateX: -500,
+            }}
+          >
+            <img src={country.flags.svg} alt={name} />
+          </motion.div>
             <section className="country-block-info">
               <h2>{name}</h2>
               <section className="details-block">

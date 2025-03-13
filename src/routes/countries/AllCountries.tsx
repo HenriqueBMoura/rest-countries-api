@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import React, { Link } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import { CountriesInterface } from "../../types/interfaces";
 
 function AllCountries({ countries, foundFilter }: { countries: CountriesInterface[] | null, foundFilter: boolean }) {
