@@ -1,0 +1,18 @@
+// filepath: /Users/henriquemoura/Documents/GitHub/rest-countries-main/tsconfig.json
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "CommonJS",
+    "strict": true,
+    "jsx": "react",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "noEmit": true,
+    "isolatedModules": true,
+    "types": ["@testing-library/jest-dom"]
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "**/*.tsx"],
+  "typeRoots": ["node_modules/@types", "src/types"]
+}
